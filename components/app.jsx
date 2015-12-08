@@ -9,6 +9,9 @@ App = React.createClass({
   },
 
   render() {
+    if ( ! this.data.currentUser ) {
+        return <AccountsUIWrapper />;
+    }
     return (
       <div className='app'>
         <ul className='app__navigation'>
