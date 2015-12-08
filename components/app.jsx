@@ -1,4 +1,5 @@
-// App component - represents the whole app
+const { Link, IndexLink } = ReactRouter;
+
 App = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData() {
@@ -8,14 +9,20 @@ App = React.createClass({
   },
 
   render() {
-	if ( ! this.data.currentUser ) {
-		return <p>Register or login to get started.</p>;
-	}
     return (
-      <div className="container">
-        <header>
-          <h1>Entries</h1>
-        </header>
+      <div className='app'>
+        <ul className='app__navigation'>
+            <li>
+                <AccountsUIWrapper />
+            </li>
+            <li>
+                <IndexLink to="/" activeClassName='current'>home</IndexLink>
+            </li>
+            <li>
+                <Link to="games" activeClassName='current'>games</Link>
+            </li>
+        </ul>
+          <div className="container">{this.props.children}</div>
       </div>
     );
   }

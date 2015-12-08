@@ -1,1 +1,1 @@
-var Entries = new Mongo.Collection('entries');
+const Entries = new Mongo.Collection('entries');

@@ -19,3 +19,10 @@ react
 accounts-facebook
 accounts-password
 accounts-ui
+meteorhacks:npm
+
+
+npm-container
+reactrouter:react-router
+stevezhu:lodash
+fourseven:scss
