@@ -1,12 +1,17 @@
 const { Link, IndexLink } = ReactRouter;
 
 App = React.createClass({
-  mixins: [ReactMeteorData],
-  getMeteorData() {
-	return {
-		currentUser: Meteor.user()
-	};
-  },
+    mixins: [ReactMeteorData],
+    getMeteorData() {
+        return {
+        	currentUser: Meteor.user()
+        };
+    },
+
+    logoutDialog( event ) {
+        event.preventDefault();
+        Accounts._loginButtonsSession.set('dropdownVisible', true);
+    },
 
   render() {
     if ( ! this.data.currentUser ) {
@@ -14,18 +19,17 @@ App = React.createClass({
     }
     return (
       <div className='app'>
-        <ul className='app__navigation'>
-            <li>
-                <AccountsUIWrapper />
-            </li>
-            <li>
-                <IndexLink to="/" activeClassName='current'>home</IndexLink>
-            </li>
-            <li>
-                <Link to="games" activeClassName='current'>games</Link>
-            </li>
-        </ul>
-          <div className="container">{this.props.children}</div>
+        <AccountsUIWrapper />
+        <nav className="navbar navbar-default">
+            <ul className='app__navigation nav navbar-nav'>
+                <li>
+                    <a href="/logout" onClick={ this.logoutDialog }>{ this.data.currentUser.profile.name } ▾</a>
+                </li>
+                <Tab to="/" indexLink>home</Tab>
+                <Tab to="games">games</Tab>
+            </ul>
+        </nav>
+        <div className="container">{this.props.children}</div>
       </div>
     );
   }

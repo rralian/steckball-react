@@ -1,5 +1,7 @@
 ShowGame = React.createClass({
-  editGame() {
+  editGame( event ) {
+    event.preventDefault();
+    event.stopPropagation();
     Session.set( 'editingGame', this.props.game._id );
   },
   deleteGame( event ) {
@@ -12,12 +14,13 @@ ShowGame = React.createClass({
   render() {
     const game = this.props.game;
     return (
-      <li onClick={ this.editGame } className='show-game'>
-          { game.title }
-          { game.team1 }
-          { game.team2 }
-          { game.date }
-          <input type='submit' value='delete' onClick={ this.deleteGame }/>
+      <li className='show-game row' onClick={ this.editGame } >
+          <span className="col-sm-2" >{ game.title }</span>
+          <span className="col-sm-2">{ game.date }</span>
+          <span className="col-sm-2">{ game.location }</span>
+          <span className="col-sm-2">{ game.team1 }</span>
+          <span className="col-sm-2">{ game.team2 }</span>
+          <input type='submit' value='delete' className="col-sm-2 button" onClick={ this.deleteGame }/>
       </li>
     );
   }

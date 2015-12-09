@@ -2,6 +2,10 @@ Meteor.methods( {
 	addGame( game ) {
 		Games.insert( game );
 	},
+	updateGame( game ) {
+		const gameValues = _.omit( game, '_id' );
+		Games.update(game._id, {$set: gameValues });
+	},
 	deleteGame( game ) {
 		Games.remove( { _id: game._id } );
 	},

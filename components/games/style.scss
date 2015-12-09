@@ -1,4 +1,4 @@
-.show-game{
+.show-game {
 	input {
 		display: none;
 	}
@@ -6,4 +6,21 @@
 		display: inline;
 	}
 
+}
+.games-list__list {
+	list-style-type: none;
+	padding-left: 0;
+}
+.games-list .row {
+	height: 3rem;
+}
+.add-game-form {
+	border-top: 1px solid #333;
+	padding-top: 10px;
+}
+.edit-game-form .button {
+	display: none;
+	&.dirty {
+		display: block;
+	}
 }

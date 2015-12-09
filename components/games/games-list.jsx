@@ -1,10 +1,9 @@
-const isEditingGame = ( game ) => game._id === Session.get( 'editingGame' );
-
 GamesList = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData() {
 	return {
-		games: Games.find().fetch()
+		games: Games.find().fetch(),
+        editingGame: Session.get( 'editingGame' ),
 	};
   },
 
@@ -12,13 +11,13 @@ GamesList = React.createClass({
 	const Games = this.data.games;
 
     return (
-      <div className="games">
+      <div className="games-list">
         <header>
           <h1>Games</h1>
         </header>
-		<ul>
+		<ul className="games-list__list">
 			{ Games.map( game => {
-                const GameItem = isEditingGame( game ) ? EditGameForm : ShowGame;
+                const GameItem = ( this.data.editingGame === game._id ) ? EditGameForm : ShowGame;
                 return <GameItem key={ game._id } game={ game } />
 			} ) }
 			<AddGameForm />
