@@ -1,11 +1,10 @@
-const { Link, History, IndexLink } = ReactRouter;
+const { Link, History } = ReactRouter;
 
 Tab = React.createClass({
   mixins: [ History ],
   render() {
-    let isActive = this.history.isActive(this.props.to, this.props.query, this.props.indexLink)
-    let className = isActive ? 'active' : ''
-	const LinkElement = this.props.indexLink ? IndexLink : Link;
-    return <li className={className}><LinkElement {...this.props}/></li>
+    const isActive = this.history.isActive(this.props.to, this.props.query, this.props.onlyActiveOnIndex)
+    const className = isActive ? 'active' : ''
+    return <li className={className}><Link {...this.props}/></li>
   }
 })
