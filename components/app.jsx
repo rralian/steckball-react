@@ -17,6 +17,7 @@ App = React.createClass({
     if ( ! this.data.currentUser ) {
         return <AccountsUIWrapper />;
     }
+    const isAdmin = Roles.userIsInRole(Meteor.userId(), ['admin']);
     return (
       <div className='app'>
         <AccountsUIWrapper />
@@ -26,7 +27,7 @@ App = React.createClass({
                     <a href="/logout" onClick={ this.logoutDialog }>{ this.data.currentUser.profile.name } ▾</a>
                 </li>
                 <Tab to="/" onlyActiveOnIndex>home</Tab>
-                <Tab to="games">games</Tab>
+                { isAdmin && <Tab to="games">games</Tab> }
             </ul>
         </nav>
         <div className="container">{this.props.children}</div>
