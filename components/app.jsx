@@ -27,6 +27,7 @@ App = React.createClass({
                     <a href="/logout" onClick={ this.logoutDialog }>{ this.data.currentUser.profile.name } ▾</a>
                 </li>
                 <Tab to="/" onlyActiveOnIndex>home</Tab>
+                <Tab to="picks">picks</Tab>
                 { isAdmin && <Tab to="games">games</Tab> }
             </ul>
         </nav>

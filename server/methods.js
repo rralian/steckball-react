@@ -1,4 +1,5 @@
 Meteor.methods( {
+	// games
 	addGame( game ) {
 		Games.insert( game );
 	},
@@ -10,28 +11,16 @@ Meteor.methods( {
 		Games.remove( { _id: game._id } );
 	},
 
-
-
-
-
-
-
-	updateActivity( id, data ) {
-		Activities.update( { _id: id }, { $set: data } );
+	// picks
+	addPick( pick ) {
+		Picks.insert( pick );
 	},
-	insertActivity( data ) {
-		if ( ! isAdmin() ) return;
-		Activities.insert(data);
+	updatePick( pick ) {
+		const pickValues = _.omit( pick, '_id' );
+		Picks.update(pick._id, {$set: pickValues });
 	},
-	deleteActivity( activity ) {
-		if ( ! isAdmin() ) return;
-		Activities.remove({ _id: activity._id } );
+	deletePick( pick ) {
+		Picks.remove( { _id: pick._id } );
 	},
-	slackNotify( slackUser, message ) {
-		if ( ! Meteor.userId ) return;
-		if ( slackUser.substring( 0, 1 ) !== '@' ) {
-			slackUser = '@' + slackUser;
-		}
-		rateLimitSlack( slackUser, message );
-	}
+
 } );

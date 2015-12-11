@@ -1,6 +1,9 @@
 Meteor.publish("games", function() {
   return Games.find();
 });
+Meteor.publish("picks", function() {
+  return Picks.find();
+});
 
 Accounts.onCreateUser( ( options, user ) => {
     if ( options.profile ) {
