@@ -19,6 +19,7 @@ Meteor.startup(function () {
 	  <Router history={ history }>
 		  <Route name="root" component={App} path="/">
 			<IndexRoute component={Home} />
+            <Route name="picks" path="picks" component={PicksList}/>
 			<Route name="games" path="games" component={GamesList} onEnter={ checkAdmin }/>
 		  </Route>
 	  </Router>

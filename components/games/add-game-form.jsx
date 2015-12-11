@@ -31,10 +31,10 @@ AddGameForm = React.createClass({
       <li className='add-game-form row'>
 		<form onSubmit={ this.validateForm }>
 			<input type="text" name="name" className="col-sm-2" placeholder="bowl game title" valueLink={ this.linkState( 'title' ) } ref='gameName' />
-			<input type="date" name="date" className="col-sm-2" placeholder="date" valueLink={ this.linkState( 'date' ) } />
+            <input type="text" name="team1" className="col-sm-2" placeholder="team1" valueLink={ this.linkState( 'team1' ) } />
+            <input type="text" name="team2" className="col-sm-2" placeholder="team2" valueLink={ this.linkState( 'team2' ) } />
             <input type="text" name="location" className="col-sm-2" placeholder="location" valueLink={ this.linkState( 'location' ) } />
-			<input type="text" name="team1" className="col-sm-2" placeholder="team1" valueLink={ this.linkState( 'team1' ) } />
-			<input type="text" name="team2" className="col-sm-2" placeholder="team2" valueLink={ this.linkState( 'team2' ) } />
+			<input type="date" name="date" className="col-sm-2" placeholder="date" valueLink={ this.linkState( 'date' ) } />
 			<input type="submit" className="col-sm-2 button" value="add game" />
 		</form>
       </li>

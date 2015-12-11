@@ -24,3 +24,10 @@
 		display: block;
 	}
 }
+.show-game {
+	white-space: nowrap;
+	span {
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+}

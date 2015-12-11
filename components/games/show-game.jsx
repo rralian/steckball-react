@@ -16,10 +16,10 @@ ShowGame = React.createClass({
     return (
       <li className='show-game row' onClick={ this.editGame } >
           <span className="col-sm-2" >{ game.title }</span>
-          <span className="col-sm-2">{ game.date }</span>
-          <span className="col-sm-2">{ game.location }</span>
           <span className="col-sm-2">{ game.team1 }</span>
           <span className="col-sm-2">{ game.team2 }</span>
+          <span className="col-sm-2">{ game.location }</span>
+          <span className="col-sm-2">{ game.date }</span>
           <input type='submit' value='delete' className="col-sm-2 button" onClick={ this.deleteGame }/>
       </li>
     );
