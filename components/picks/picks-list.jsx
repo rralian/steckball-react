@@ -2,25 +2,23 @@ PicksList = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData() {
 	return {
-		games: Games.find().fetch(),
-        editingGame: Session.get( 'editingGame' ),
+		picks: Picks.find().fetch(),
 	};
   },
 
   render() {
-	const Games = this.data.games;
+	const picks = this.data.picks;
 
     return (
       <div className="games-list">
         <header>
-          <h1>Games</h1>
+          <h1>My Picks</h1>
         </header>
+
 		<ul className="games-list__list">
-			{ Games.map( game => {
-                const GameItem = ( this.data.editingGame === game._id ) ? EditGameForm : ShowGame;
-                return <GameItem key={ game._id } game={ game } />
-			} ) }
-			<AddGameForm />
+            { ! picks.length &&
+                <p>You don't have any picks yet. You can create picks for yourself and anyone else in your family.</p>
+            }
 		</ul>
       </div>
     );
