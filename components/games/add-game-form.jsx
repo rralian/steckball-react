@@ -1,4 +1,3 @@
-
 AddGameForm = React.createClass({
   mixins: [ React.addons.LinkedStateMixin ],
   getInitialState() {

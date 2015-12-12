@@ -8,26 +8,27 @@ App = React.createClass({
         };
     },
 
-    logoutDialog( event ) {
+    userDialog( event ) {
         event.preventDefault();
         Accounts._loginButtonsSession.set('dropdownVisible', true);
     },
 
+
   render() {
-    if ( ! this.data.currentUser ) {
-        return <AccountsUIWrapper />;
-    }
     const isAdmin = Roles.userIsInRole(Meteor.userId(), ['admin']);
+    const { currentUser } = this.data;
     return (
       <div className='app'>
         <AccountsUIWrapper />
         <nav className="navbar navbar-default">
             <ul className='app__navigation nav navbar-nav'>
-                <li>
-                    <a href="/logout" onClick={ this.logoutDialog }>{ this.data.currentUser.profile.name } ▾</a>
-                </li>
+                { currentUser ?
+                    <li><a href="/logout" onClick={ this.userDialog }>{ currentUser.profile.name } ▾</a></li>
+                :
+                    <li><a href="/login" onClick={ this.userDialog }>login/register</a></li>
+                }
                 <Tab to="/" onlyActiveOnIndex>home</Tab>
-                <Tab to="picks">picks</Tab>
+                <Tab to="picks">my picks</Tab>
                 { isAdmin && <Tab to="games">games</Tab> }
             </ul>
         </nav>
