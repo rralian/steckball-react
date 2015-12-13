@@ -1,13 +1,26 @@
+const checkAdmin = function() {
+    if( ! Roles.userIsInRole( Meteor.userId(), ['admin'] ) ) {
+		throw new Meteor.Error(
+			"admin-only",
+			"Only admins are allowed to do this."
+		);
+		return false;
+	}
+	return true;
+};
 Meteor.methods( {
 	// games
 	addGame( game ) {
+		if ( ! checkAdmin() ) return;
 		Games.insert( game );
 	},
 	updateGame( game ) {
+		if ( ! checkAdmin() ) return;
 		const gameValues = _.omit( game, '_id' );
 		Games.update(game._id, {$set: gameValues });
 	},
 	deleteGame( game ) {
+		if ( ! checkAdmin() ) return;
 		Games.remove( { _id: game._id } );
 	},
 
