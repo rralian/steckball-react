@@ -10,22 +10,24 @@ Meteor.subscribe('games');
 Meteor.subscribe('picks');
 
 const checkAdmin = function( nextState, replaceState ) {
-    if (!Roles.userIsInRole(Meteor.userId(), ['admin'])) {
+    if ( ! Roles.userIsInRole( Meteor.userId(), ['admin'] ) ) {
         replaceState({ nextPathname: nextState.location.pathname }, '/')
     }
 };
-const checkLoggedIn = function() {
-    return !! Meteor.user();
-}
+const checkLoggedIn = function( nextState, replaceState ) {
+    if ( ! Meteor.user() ) {
+        replaceState({ nextPathname: nextState.location.pathname }, '/')
+    }
+};
 
 Meteor.startup(function () {
   ReactDOM.render((
 	  <Router history={ history }>
 		  <Route name="root" component={App} path="/">
 			<IndexRoute component={Home} />
-            <Route name="picks" path="picks">
-                <IndexRoute component={PicksList} onEnter={ checkLoggedIn }/>
-                <Route name="pick" path=":pickId" component={Pick}  onEnter={ checkLoggedIn }/>
+            <Route name="picks" path="picks" onEnter={ checkLoggedIn }>
+                <IndexRoute component={PicksList}/>
+                <Route name="pick" path=":pickId" component={Pick}/>
             </Route>
 			<Route name="games" path="games" component={GamesList} onEnter={ checkAdmin }/>
 		  </Route>

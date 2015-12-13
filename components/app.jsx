@@ -17,13 +17,19 @@ App = React.createClass({
   render() {
     const isAdmin = Roles.userIsInRole(Meteor.userId(), ['admin']);
     const { currentUser } = this.data;
+    let displayName = 'sign out';
+    if ( currentUser && currentUser.profile && currentUser.profile.name ) {
+        displayName = currentUser.profile.name;
+    } else if ( currentUser && currentUser.emails && currentUser.emails.length ) {
+        displayName = currentUser.emails[ 0 ].address;
+    }
     return (
       <div className='app'>
         <AccountsUIWrapper />
         <nav className="navbar navbar-default">
             <ul className='app__navigation nav navbar-nav'>
                 { currentUser ?
-                    <li><a href="/logout" onClick={ this.userDialog }>{ currentUser.profile.name } ▾</a></li>
+                    <li><a href="/logout" onClick={ this.userDialog }>{ displayName } ▾</a></li>
                 :
                     <li><a href="/login" onClick={ this.userDialog }>login/register</a></li>
                 }
