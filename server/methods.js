@@ -35,13 +35,21 @@ Meteor.methods( {
 		if ( pick.userId !== Meteor.userId() ) {
 			throw new Meteor.Error(
 				"wrong-user",
-  				"It doesn't look like you're the owner of these picks."
+				"It doesn't look like you're the owner of these picks."
 			);
 			return;
 		}
 		Picks.update(pick._id, {$set: pickValues });
 	},
 	deletePick( pick ) {
+		const storedPick = Picks.find({_id:pick._id}).fetch();
+		if ( pick.userId !== Meteor.userId() ) {
+			throw new Meteor.Error(
+				"wrong-user",
+				"It doesn't look like you're the owner of these picks."
+			);
+			return;
+		}
 		Picks.remove( { _id: pick._id } );
 	},
 
