@@ -1,3 +1,38 @@
+const nflTeams = [
+"Arizona Cardinals",
+"Atlanta Falcons",
+"Baltimore Ravens",
+"Buffalo Bills",
+"Carolina Panthers",
+"Chicago Bears",
+"Cincinnati Bengals",
+"Cleveland Browns",
+"Dallas Cowboys",
+"Denver Broncos",
+"Detroit Lions",
+"Green Bay Packers",
+"Houston Texans",
+"Indianapolis Colts",
+"Jacksonville Jaguars",
+"Kansas City Chiefs",
+"Miami Dolphins",
+"Minnesota Vikings",
+"New England Patriots",
+"New Orleans Saints",
+"NY Giants",
+"NY Jets",
+"Oakland Raiders",
+"Philadelphia Eagles",
+"Pittsburgh Steelers",
+"San Diego Chargers",
+"San Francisco 49ers",
+"Seattle Seahawks",
+"St. Louis Rams",
+"Tampa Bay Buccaneers",
+"Tennessee Titans",
+"Washington Redskins",
+];
+
 PickForm = React.createClass({
 	mixins: [ReactMeteorData,React.addons.LinkedStateMixin],
 	getMeteorData() {
@@ -48,9 +83,9 @@ PickForm = React.createClass({
 			return false;
 		}
 
-		if ( ! this.state[ 'superbowl-score' ] ) {
-			alert('Please enter a total superbowl score.');
-			ReactDOM.findDOMNode(this.refs[ 'superbowl-score' ]).focus();
+		if ( ! this.state[ 'superbowlWinner' ] ) {
+			alert('Please enter a superbowl winner.');
+			ReactDOM.findDOMNode(this.refs[ 'superbowlWinner' ]).focus();
 			return false;
 		}
 		return true;
@@ -62,11 +97,17 @@ PickForm = React.createClass({
 		const { games, pick } = this.props;
 		const gameIds = games.map( game => `game-${game._id}` );
 		const gameMarginKeys = games.map( game => `game-${game._id}-margin` );
-		const newPick = _.pick( this.state, [ '_id', 'pick-owner', 'superbowl-score', 'totalScore', ...gameIds, ...gameMarginKeys ] );
+		const newPick = _.pick( this.state, [ '_id', 'pick-owner', 'superbowlWinner', 'totalScore', ...gameIds, ...gameMarginKeys ] );
 		newPick.userId = this.data.userId;
 		const saveMethod = ( newPick._id ) ? 'updatePick' : 'addPick';
 		Meteor.call( saveMethod, newPick );
 		history.pushState( null, '/picks' );
+	},
+	selectSuperbowlWinner( event ) {
+		event.preventDefault();
+		const winner = event.target.value;
+		if ( ! winner ) return;
+		this.setState( { superbowlWinner: winner } );
 	},
 	render() {
 		const { games } = this.props;
@@ -125,15 +166,13 @@ PickForm = React.createClass({
 				} ) }
 					</fieldset>
 					<fieldset className="pick-form__fieldset">
-					<legend>tiebreaker</legend>
-						<label htmlFor="superbowl-score">Enter the combined score for the superbowl.</label>
-						<input
-							id="superbowl-score"
-							className="pick-form__superbowl-input"
-							type="number"
-							ref="superbowl-score"
-							valueLink={ this.linkState( 'superbowl-score' ) }
-						/>
+					<legend>Who's gonna win the superbowl?</legend>
+						<select name="superbowl-winner" ref="superbowlWinner" onChange={ this.selectSuperbowlWinner } defaultValue={ this.state.superbowlWinner }>
+							<option>select a team</option>
+							{ nflTeams.map( team => {
+								return <option value={ team } key={ `nfl-team-${ team }` }>{ team }</option>
+							} ) }
+						</select>
 					</fieldset>
 
 					<input type="submit" className="btn btn-primary pick-form__submit" value="save pick" />
