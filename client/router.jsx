@@ -30,6 +30,7 @@ Meteor.startup(function () {
                 <Route name="pick" path=":pickId" component={Pick}/>
             </Route>
 			<Route name="games" path="games" component={GamesList} onEnter={ checkAdmin }/>
+            <Route name="scores" path="scores" component={ScoresList} onEnter={ checkAdmin }/>
 		  </Route>
 	  </Router>
   ), document.getElementById("render-target"))

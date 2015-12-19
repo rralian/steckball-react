@@ -1,0 +1,31 @@
+.scores-list__list {
+	list-style-type: none;
+	padding-left: 0;
+	white-space: nowrap;
+	span {
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+}
+.scores-list .row {
+	height: 3rem;
+}
+.edit-score-form .button {
+	display: none;
+	&.dirty {
+		display: block;
+	}
+}
+.show-game {
+	white-space: nowrap;
+	span {
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+}
+.scores-list__list {
+	margin-top: 20px;
+}
+.scores-list__list .title {
+	font-weight: bold;
+}

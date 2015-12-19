@@ -5,6 +5,12 @@ EditGameForm = React.createClass({
         state.dirty = false;
         return state;
     },
+    componentDidMount() {
+        document.addEventListener( 'keydown', this.handleKeyDown );
+    },
+    componentWillUnmount() {
+        document.removeEventListener( 'keydown', this.handleKeyDown );
+    },
     validateForm( event ) {
         event.preventDefault();
         const game = _.pick( this.state, [ '_id', 'title', 'date', 'location', 'team1', 'team2' ] );
@@ -13,6 +19,7 @@ EditGameForm = React.createClass({
         }
         Meteor.call( 'updateGame', game );
         Session.set( 'editingGame', null );
+        this.setState({dirty: false});
     },
     handleKeyDown( event ) {
         if ( event.keyCode === 27 ) {
@@ -22,7 +29,7 @@ EditGameForm = React.createClass({
     render() {
         const inputClasses = this.state.dirty ? 'col-sm-2 button dirty' : 'col-sm-2 button';
         return (
-            <li className='edit-game-form row' onKeyDown={ this.handleKeyDown }>
+            <li className='edit-game-form row'>
         		<form onSubmit={ this.validateForm } onChange={ () => this.setState({dirty:true}) }>
                     <input type="text" name="name" className="col-sm-2" placeholder="bowl game title" valueLink={ this.linkState( 'title' ) } ref='gameName' />
                     <input type="text" name="team1" className="col-sm-2" placeholder="team1" valueLink={ this.linkState( 'team1' ) } />

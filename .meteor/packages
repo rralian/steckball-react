@@ -24,7 +24,6 @@ meteorhacks:npm
 
 npm-container
 reactrouter:react-router
-stevezhu:lodash
 fourseven:scss
 twbs:bootstrap
 alanning:roles

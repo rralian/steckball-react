@@ -36,6 +36,7 @@ App = React.createClass({
                 <Tab to="/" onlyActiveOnIndex>home</Tab>
                 <Tab to="picks">my picks</Tab>
                 { isAdmin && <Tab to="games">games</Tab> }
+                { isAdmin && <Tab to="scores">scores</Tab> }
             </ul>
         </nav>
         <div className="container">{this.props.children}</div>
