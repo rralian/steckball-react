@@ -7,9 +7,17 @@ Pick = React.createClass({
 			pick: Picks.findOne({_id: this.props.params.pickId})
 		};
     },
+	contextTypes: {
+        gameMode: React.PropTypes.string,
+		isAdmin: React.PropTypes.bool,
+    },
 	render() {
 		const { games, pick } = this.data;
-		const title = pick ? 'Edit Your Pick' : 'Create a Pick';
+		const { gameMode, isAdmin } = this.context;
+		let title = pick ? 'Edit Pick' : 'Create a Pick';
+		if ( gameMode === 'playing' && ! isAdmin ) {
+			title = 'View Pick';
+		}
 		if ( ! games.length ) return;
 		return (
 			<div className="pick">

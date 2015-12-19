@@ -4,6 +4,9 @@ Meteor.publish("games", function() {
 Meteor.publish("picks", function() {
   return Picks.find();
 });
+Meteor.publish("adminSettings", function() {
+  return AdminSettings.find();
+});
 
 Accounts.onCreateUser( ( options, user ) => {
     if ( options.profile ) {

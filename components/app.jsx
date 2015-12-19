@@ -4,7 +4,22 @@ App = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData() {
         return {
-        	currentUser: Meteor.user()
+        	currentUser: Meteor.user(),
+            adminSettings: AdminSettings.findOne(),
+        };
+    },
+
+    childContextTypes: {
+        gameMode: React.PropTypes.string,
+        isAdmin: React.PropTypes.bool,
+    },
+
+    getChildContext() {
+        const { adminSettings } = this.data;
+        const gameMode = adminSettings ? adminSettings.gameMode : 'picking';
+        return {
+            gameMode,
+            isAdmin: Roles.userIsInRole(Meteor.userId(), ['admin'])
         };
     },
 
@@ -13,8 +28,7 @@ App = React.createClass({
         Accounts._loginButtonsSession.set('dropdownVisible', true);
     },
 
-
-  render() {
+    render() {
     const isAdmin = Roles.userIsInRole(Meteor.userId(), ['admin']);
     const { currentUser } = this.data;
     let displayName = 'sign out';
@@ -34,13 +48,14 @@ App = React.createClass({
                     <li><a href="/login" onClick={ this.userDialog }>login/register</a></li>
                 }
                 <Tab to="/" onlyActiveOnIndex>home</Tab>
-                <Tab to="picks">my picks</Tab>
-                { isAdmin && <Tab to="games">games</Tab> }
-                { isAdmin && <Tab to="scores">scores</Tab> }
+                { currentUser && <Tab to="/picks">picks</Tab> }
+                { isAdmin && <Tab to="/games">games</Tab> }
+                { isAdmin && <Tab to="/scores">scores</Tab> }
+                { isAdmin && <Tab to="/admin">admin</Tab> }
             </ul>
         </nav>
         <div className="container">{this.props.children}</div>
       </div>
     );
-  }
+    }
 });

@@ -42,6 +42,8 @@ PickForm = React.createClass({
     },
 	contextTypes: {
 		history: React.PropTypes.object,
+		gameMode: React.PropTypes.string,
+		isAdmin: React.PropTypes.bool,
 	},
 	getInitialState() {
 		const { games, pick } = this.props;
@@ -110,7 +112,11 @@ PickForm = React.createClass({
 		this.setState( { superbowlWinner: winner } );
 	},
 	render() {
-		const { games } = this.props;
+		const { games, pick } = this.props;
+		const { gameMode, isAdmin } = this.context;
+		const isPicking = gameMode === 'picking';
+		const isOwner = ( ! this._id || this.data.userId === pick.userId );
+		const canEdit = ( isAdmin || ( isPicking && isOwner ) );
 		return (
 			<div className="pick-form">
 				<form onSubmit={ this.savePick }>
@@ -124,6 +130,7 @@ PickForm = React.createClass({
 							type="text"
 							valueLink={ this.linkState( 'pick-owner' ) }
 							placeholder="Pick Owner"
+							disabled={ ! canEdit }
 						/>
 					</fieldset>
 					<fieldset className="pick-form__fieldset">
@@ -141,6 +148,7 @@ PickForm = React.createClass({
 									value="team1"
 									checked={ this.state[ gameKey ] === 'team1' }
 									onChange={ this.updateRadio }
+									disabled={ ! canEdit }
 								/>
 								{ game.team1 }
 							</label>
@@ -151,6 +159,7 @@ PickForm = React.createClass({
 									value="team2"
 									checked={ this.state[ gameKey ] === 'team2' }
 									onChange={ this.updateRadio }
+									disabled={ ! canEdit }
 								/>
 								{ game.team2 }
 							</label>
@@ -160,6 +169,7 @@ PickForm = React.createClass({
 								ref={ `${gameKey}-margin` }
 								placeholder="by how many points"
 								valueLink={ this.linkState( `${gameKey}-margin` ) }
+								disabled={ ! canEdit }
 							/>
 						</div>
 					);
@@ -167,7 +177,7 @@ PickForm = React.createClass({
 					</fieldset>
 					<fieldset className="pick-form__fieldset">
 					<legend>Who's gonna win the superbowl?</legend>
-						<select name="superbowl-winner" ref="superbowlWinner" onChange={ this.selectSuperbowlWinner } defaultValue={ this.state.superbowlWinner }>
+						<select name="superbowl-winner" ref="superbowlWinner" onChange={ this.selectSuperbowlWinner } defaultValue={ this.state.superbowlWinner } disabled={ ! canEdit }>
 							<option>select a team</option>
 							{ nflTeams.map( team => {
 								return <option value={ team } key={ `nfl-team-${ team }` }>{ team }</option>
@@ -175,7 +185,7 @@ PickForm = React.createClass({
 						</select>
 					</fieldset>
 
-					<input type="submit" className="btn btn-primary pick-form__submit" value="save pick" />
+					<input type="submit" className="btn btn-primary pick-form__submit" value="save pick" disabled={ ! canEdit }/>
 				</form>
 			</div>
 		);

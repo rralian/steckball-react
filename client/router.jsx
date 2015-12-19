@@ -8,6 +8,7 @@ const history = ReactRouter.history.useQueries(ReactRouter.history.createHistory
 
 Meteor.subscribe('games');
 Meteor.subscribe('picks');
+Meteor.subscribe('adminSettings');
 
 const checkAdmin = function( nextState, replaceState ) {
     if ( ! Roles.userIsInRole( Meteor.userId(), ['admin'] ) ) {
@@ -31,6 +32,7 @@ Meteor.startup(function () {
             </Route>
 			<Route name="games" path="games" component={GamesList} onEnter={ checkAdmin }/>
             <Route name="scores" path="scores" component={ScoresList} onEnter={ checkAdmin }/>
+            <Route name="admin" path="admin" component={AdminWrapper} onEnter={ checkAdmin }/>
 		  </Route>
 	  </Router>
   ), document.getElementById("render-target"))

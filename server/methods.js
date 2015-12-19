@@ -66,6 +66,16 @@ Meteor.methods( {
 
         updateScores( { _id, team1Score, team2Score } );
     },
+    saveAdminSettings( adminSettings ) {
+        if ( ! checkAdmin() ) return;
+        const adminSettingsValues = _.pick( adminSettings, [ 'gameMode' ] );
+        const storedAdminSettings = AdminSettings.findOne();
+        if ( storedAdminSettings ) {
+            AdminSettings.update( storedAdminSettings._id, {$set: adminSettingsValues} )
+        } else {
+            AdminSettings.insert( adminSettingsValues );
+        }
+    },
 
 } );
 
