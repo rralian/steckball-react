@@ -99,8 +99,10 @@ PickForm = React.createClass({
 		const { games, pick } = this.props;
 		const gameIds = games.map( game => `game-${game._id}` );
 		const gameMarginKeys = games.map( game => `game-${game._id}-margin` );
-		const newPick = _.pick( this.state, [ '_id', 'pick-owner', 'superbowlWinner', 'totalScore', ...gameIds, ...gameMarginKeys ] );
-		newPick.userId = this.data.userId;
+		const newPick = _.pick( this.state, [ '_id', 'pick-owner', 'superbowlWinner', 'totalScore', 'userId', ...gameIds, ...gameMarginKeys ] );
+		if ( ! newPick.userId ) {
+			newPick.userId = this.data.userId;
+		}
 		const saveMethod = ( newPick._id ) ? 'updatePick' : 'addPick';
 		Meteor.call( saveMethod, newPick );
 		history.pushState( null, '/picks' );
