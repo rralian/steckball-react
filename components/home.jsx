@@ -3,7 +3,7 @@ Home = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData() {
         return {
-        	picks: Picks.find().fetch(),
+        	picks: Picks.find({}, {sort: {totalScore: 1}}).fetch(),
             myPicks: Picks.find({userId: Meteor.userId()}).fetch(),
             currentUser: Meteor.user(),
         };
