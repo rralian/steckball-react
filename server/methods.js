@@ -126,7 +126,7 @@ function updateTotalScore( pick ) {
         totalScore += allScores[ game ];
     }
     if ( storedSuperbowl && storedSuperbowl.winner && storedSuperbowl.winner !== pick.superbowlWinner ) {
-        totalScore += 50;
+        totalScore += 25;
     }
     Picks.update( pick._id, {$set: { totalScore } } );
 }
