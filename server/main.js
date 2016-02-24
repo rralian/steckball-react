@@ -7,6 +7,9 @@ Meteor.publish("picks", function() {
 Meteor.publish("adminSettings", function() {
   return AdminSettings.find();
 });
+Meteor.publish("superbowl", function() {
+  return Superbowl.find();
+});
 
 Accounts.onCreateUser( ( options, user ) => {
     if ( options.profile ) {

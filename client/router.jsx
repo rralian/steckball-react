@@ -9,6 +9,7 @@ const history = ReactRouter.history.useQueries(ReactRouter.history.createHistory
 Meteor.subscribe('games');
 Meteor.subscribe('picks');
 Meteor.subscribe('adminSettings');
+Meteor.subscribe('superbowl');
 
 const checkAdmin = function( nextState, replaceState ) {
     if ( ! Roles.userIsInRole( Meteor.userId(), ['admin'] ) ) {

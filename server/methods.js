@@ -66,15 +66,27 @@ Meteor.methods( {
 
         updateScores( { _id, team1Score, team2Score } );
     },
+    saveSuperbowlWinner( winner ) {
+        if ( ! checkAdmin() ) return;
+        const storedSuperbowl = Superbowl.findOne();
+        const picks = Picks.find().fetch();
+        if ( storedSuperbowl ) {
+            Superbowl.update( storedSuperbowl._id, {$set: { winner: winner } } );
+        } else {
+            Superbowl.insert( { winner: winner } );
+        }
+        picks.map( pick => {
+            updateTotalScore( pick );
+        } );
+    },
     saveAdminSettings( adminSettings ) {
         if ( ! checkAdmin() ) return;
         const adminSettingsValues = _.pick( adminSettings, [ 'gameMode' ] );
         const storedAdminSettings = AdminSettings.findOne();
         if ( storedAdminSettings ) {
-            AdminSettings.update( storedAdminSettings._id, {$set: adminSettingsValues} )
-        } else {
-            AdminSettings.insert( adminSettingsValues );
+            return AdminSettings.update( storedAdminSettings._id, {$set: adminSettingsValues} );
         }
+        AdminSettings.insert( adminSettingsValues );
     },
 
 } );
@@ -83,6 +95,7 @@ function updateScores( scores ) {
     const picks = Picks.find().fetch();
     picks.map( pick => {
         updateGameScore( pick, scores );
+        updateTotalScore( pick );
     } );
 }
 
@@ -102,9 +115,18 @@ function updateGameScore( pick, scores ) {
     }
     const allScores = pick.allScores || {};
     allScores[ _id ] = gameScore;
+    Picks.update( pick._id, {$set: { allScores } } );
+}
+
+function updateTotalScore( pick ) {
+    const allScores = pick.allScores || {};
+    const storedSuperbowl = Superbowl.findOne();
     let totalScore = 0;
     for( game in allScores ) {
         totalScore += allScores[ game ];
     }
-    Picks.update( pick._id, {$set: { allScores, totalScore } } );
+    if ( storedSuperbowl && storedSuperbowl.winner && storedSuperbowl.winner !== pick.superbowlWinner ) {
+        totalScore += 50;
+    }
+    Picks.update( pick._id, {$set: { totalScore } } );
 }

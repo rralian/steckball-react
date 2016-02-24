@@ -13,7 +13,6 @@ ScoreItem = React.createClass({
 		team2Score = parseInt( team2Score, 10 );
 		const { _id } = game;
 		if ( typeof team1Score !== 'number' || typeof team2Score !== 'number' ) {
-			debugger;
 			alert('Only enter numbers, you monkey!');
 			return;
 		}

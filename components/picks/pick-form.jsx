@@ -1,38 +1,3 @@
-const nflTeams = [
-"Arizona Cardinals",
-"Atlanta Falcons",
-"Baltimore Ravens",
-"Buffalo Bills",
-"Carolina Panthers",
-"Chicago Bears",
-"Cincinnati Bengals",
-"Cleveland Browns",
-"Dallas Cowboys",
-"Denver Broncos",
-"Detroit Lions",
-"Green Bay Packers",
-"Houston Texans",
-"Indianapolis Colts",
-"Jacksonville Jaguars",
-"Kansas City Chiefs",
-"Miami Dolphins",
-"Minnesota Vikings",
-"New England Patriots",
-"New Orleans Saints",
-"NY Giants",
-"NY Jets",
-"Oakland Raiders",
-"Philadelphia Eagles",
-"Pittsburgh Steelers",
-"San Diego Chargers",
-"San Francisco 49ers",
-"Seattle Seahawks",
-"St. Louis Rams",
-"Tampa Bay Buccaneers",
-"Tennessee Titans",
-"Washington Redskins",
-];
-
 PickForm = React.createClass({
 	mixins: [ReactMeteorData,React.addons.LinkedStateMixin],
 	getMeteorData() {
@@ -50,7 +15,7 @@ PickForm = React.createClass({
 		if ( pick ) return this.props.pick;
 		const initialState = {
 			'pick-owner': null,
-			'superbowl-score': null,
+			'superbowlWinner': null,
 			'_id': null,
 			'totalScore': 0,
 		};
@@ -85,9 +50,9 @@ PickForm = React.createClass({
 			return false;
 		}
 
-		if ( ! this.state[ 'superbowlWinner' ] ) {
+		if ( ! this.state.superbowlWinner || this.state.superbowlWinner === 'select a team' ) {
 			alert('Please enter a superbowl winner.');
-			ReactDOM.findDOMNode(this.refs[ 'superbowlWinner' ]).focus();
+			ReactDOM.findDOMNode(this.refs.NFLSelector).focus();
 			return false;
 		}
 		return true;
@@ -179,12 +144,7 @@ PickForm = React.createClass({
 					</fieldset>
 					<fieldset className="pick-form__fieldset">
 					<legend>Who's gonna win the superbowl?</legend>
-						<select name="superbowl-winner" ref="superbowlWinner" onChange={ this.selectSuperbowlWinner } defaultValue={ this.state.superbowlWinner } disabled={ ! canEdit }>
-							<option>select a team</option>
-							{ nflTeams.map( team => {
-								return <option value={ team } key={ `nfl-team-${ team }` }>{ team }</option>
-							} ) }
-						</select>
+						<NFLSelector ref="NFLSelector" onChange={ this.selectSuperbowlWinner } defaultValue={ this.state.superbowlWinner } canEdit={ canEdit } />
 					</fieldset>
 
 					<input type="submit" className="btn btn-primary pick-form__submit" value="save pick" disabled={ ! canEdit }/>
