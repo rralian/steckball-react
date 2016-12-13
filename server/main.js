@@ -4,11 +4,22 @@ Meteor.publish("games", function() {
 Meteor.publish("picks", function() {
   return Picks.find();
 });
+Meteor.publish("superbowl", function() {
+	return Superbowl.find();
+});
+
+Meteor.publish("games2016", function() {
+  return Games2016.find();
+});
+Meteor.publish("picks2016", function() {
+  return Picks2016.find();
+});
+Meteor.publish("superbowl2016", function() {
+	return Superbowl2016.find();
+});
+
 Meteor.publish("adminSettings", function() {
   return AdminSettings.find();
-});
-Meteor.publish("superbowl", function() {
-  return Superbowl.find();
 });
 
 Accounts.onCreateUser( ( options, user ) => {

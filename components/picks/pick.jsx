@@ -1,12 +1,12 @@
 Pick = React.createClass({
 	mixins: [ReactMeteorData, React.addons.LinkedStateMixin],
 	getMeteorData() {
-		const games = Games.find().fetch();
+		const games = Games2016.find().fetch();
 		return {
 			games: games,
-			pick: Picks.findOne({_id: this.props.params.pickId})
+			pick: Picks2016.findOne({_id: this.props.params.pickId})
 		};
-    },
+  },
 	contextTypes: {
         gameMode: React.PropTypes.string,
 		isAdmin: React.PropTypes.bool,

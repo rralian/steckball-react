@@ -4,7 +4,7 @@ PicksList = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData() {
         return {
-            picks: Picks.find({userId: Meteor.userId()}).fetch(),
+            picks: Picks2016.find({userId: Meteor.userId()}).fetch(),
         };
     },
 

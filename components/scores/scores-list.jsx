@@ -2,8 +2,8 @@ ScoresList = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData() {
         return {
-            games: Games.find().fetch(),
-            superbowl: Superbowl.findOne() || {}
+            games: Games2016.find().fetch(),
+            superbowl: Superbowl2016.findOne() || {}
         };
     },
 

@@ -12,26 +12,26 @@ Meteor.methods( {
 	// games
 	addGame( game ) {
 		if ( ! checkAdmin() ) return;
-		Games.insert( game );
+		Games2016.insert( game );
 	},
 	updateGame( game ) {
 		if ( ! checkAdmin() ) return;
 		const gameValues = _.omit( game, '_id' );
-		Games.update(game._id, {$set: gameValues });
+		Games2016.update(game._id, {$set: gameValues });
 	},
 	deleteGame( game ) {
 		if ( ! checkAdmin() ) return;
-		Games.remove( { _id: game._id } );
+		Games2016.remove( { _id: game._id } );
 	},
 
 	// picks
 	addPick( pick ) {
 		const pickValues = _.omit( pick, '_id' );
-		Picks.insert( pickValues );
+		Picks2016.insert( pickValues );
 	},
 	updatePick( pick ) {
 		const pickValues = _.omit( pick, '_id' );
-		const storedPick = Picks.find({_id:pick._id}).fetch();
+		const storedPick = Picks2016.find({_id:pick._id}).fetch();
 		if ( pick.userId !== Meteor.userId() && ! checkAdmin() ) {
 			throw new Meteor.Error(
 				"wrong-user",
@@ -39,10 +39,10 @@ Meteor.methods( {
 			);
 			return;
 		}
-		Picks.update(pick._id, {$set: pickValues });
+		Picks2016.update(pick._id, {$set: pickValues });
 	},
 	deletePick( pick ) {
-		const storedPick = Picks.find({_id:pick._id}).fetch();
+		const storedPick = Picks2016.find({_id:pick._id}).fetch();
 		if ( pick.userId !== Meteor.userId() && ! checkAdmin() ) {
 			throw new Meteor.Error(
 				"wrong-user",
@@ -50,7 +50,7 @@ Meteor.methods( {
 			);
 			return;
 		}
-		Picks.remove( { _id: pick._id } );
+		Picks2016.remove( { _id: pick._id } );
 	},
     saveScore( scores ) {
         if ( ! checkAdmin() ) return;
@@ -62,18 +62,18 @@ Meteor.methods( {
             );
             return;
         }
-        Games.update( _id, {$set: { team1Score, team2Score } });
+        Games2016.update( _id, {$set: { team1Score, team2Score } });
 
         updateScores( { _id, team1Score, team2Score } );
     },
     saveSuperbowlWinner( winner ) {
         if ( ! checkAdmin() ) return;
-        const storedSuperbowl = Superbowl.findOne();
-        const picks = Picks.find().fetch();
+        const storedSuperbowl = Superbowl2016.findOne();
+        const picks = Picks2016.find().fetch();
         if ( storedSuperbowl ) {
-            Superbowl.update( storedSuperbowl._id, {$set: { winner: winner } } );
+            Superbowl2016.update( storedSuperbowl._id, {$set: { winner: winner } } );
         } else {
-            Superbowl.insert( { winner: winner } );
+            Superbowl2016.insert( { winner: winner } );
         }
         picks.map( pick => {
             updateTotalScore( pick );
@@ -92,7 +92,7 @@ Meteor.methods( {
 } );
 
 function updateScores( scores ) {
-    const picks = Picks.find().fetch();
+    const picks = Picks2016.find().fetch();
     picks.map( pick => {
         updateGameScore( pick, scores );
         updateTotalScore( pick );
@@ -115,12 +115,12 @@ function updateGameScore( pick, scores ) {
     }
     const allScores = pick.allScores || {};
     allScores[ _id ] = gameScore;
-    Picks.update( pick._id, {$set: { allScores } } );
+    Picks2016.update( pick._id, {$set: { allScores } } );
 }
 
 function updateTotalScore( pick ) {
     const allScores = pick.allScores || {};
-    const storedSuperbowl = Superbowl.findOne();
+    const storedSuperbowl = Superbowl2016.findOne();
     let totalScore = 0;
     for( game in allScores ) {
         totalScore += allScores[ game ];
@@ -128,5 +128,5 @@ function updateTotalScore( pick ) {
     if ( storedSuperbowl && storedSuperbowl.winner && storedSuperbowl.winner !== pick.superbowlWinner ) {
         totalScore += 25;
     }
-    Picks.update( pick._id, {$set: { totalScore } } );
+    Picks2016.update( pick._id, {$set: { totalScore } } );
 }
