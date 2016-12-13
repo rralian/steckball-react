@@ -1,5 +1,6 @@
 .DS_Store
 mup.json
+mup.js
 settings.json
 kadira.js
 dump/*
