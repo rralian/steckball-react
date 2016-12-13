@@ -4,8 +4,8 @@ App = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData() {
         return {
-        	currentUser: Meteor.user(),
-            adminSettings: AdminSettings.findOne(),
+					currentUser: Meteor.user(),
+					adminSettings: AdminSettings.findOne(),
         };
     },
 
@@ -52,6 +52,7 @@ App = React.createClass({
                 { isAdmin && <Tab to="/games">games</Tab> }
                 { isAdmin && <Tab to="/scores">scores</Tab> }
                 { isAdmin && <Tab to="/admin">admin</Tab> }
+								{ currentUser && <Tab to="/2015-16" onlyActiveOnIndex>2015/16</Tab> }
             </ul>
         </nav>
         <div className="container">{this.props.children}</div>

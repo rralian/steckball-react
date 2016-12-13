@@ -2,7 +2,7 @@ GamesList = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData() {
 	return {
-		games: Games.find().fetch(),
+		games: Games2016.find().fetch(),
         editingGame: Session.get( 'editingGame' ),
 	};
   },

@@ -3,9 +3,9 @@ Home = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData() {
         return {
-        	picks: Picks.find({}, {sort: {totalScore: 1}}).fetch(),
-            myPicks: Picks.find({userId: Meteor.userId()}).fetch(),
-            currentUser: Meteor.user(),
+        	picks: Picks2016.find({}, {sort: {totalScore: 1}}).fetch(),
+          myPicks: Picks2016.find({userId: Meteor.userId()}).fetch(),
+          currentUser: Meteor.user(),
         };
     },
     contextTypes: {
