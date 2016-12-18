@@ -1,5 +1,5 @@
+import React from 'react';
 ScoreItem = React.createClass({
-    mixins: [ React.addons.LinkedStateMixin ],
 	getInitialState() {
 	    const state = _.pick( this.props.game, [ 'team1Score', 'team2Score' ] );
 	    state.dirty = false;
@@ -19,6 +19,14 @@ ScoreItem = React.createClass({
 		Meteor.call( 'saveScore', { _id, team1Score, team2Score } );
         this.setState({dirty:false});
 	},
+	setTeam1Score( e ) {
+		const team1Score = e.target.value;
+		this.setState( { team1Score } );
+	},
+	setTeam2Score( e ) {
+		const team2Score = e.target.value;
+		this.setState( { team2Score } );
+	},
 	render() {
 		const { game } = this.props;
 		const inputClasses = this.state.dirty ? 'col-sm-2 button dirty' : 'col-sm-2 button';
@@ -31,13 +39,17 @@ ScoreItem = React.createClass({
 						type="number"
 						name="team1Score"
 						className="col-sm-2"
-						valueLink={ this.linkState( 'team1Score' ) } />
+						onChange={ this.setTeam1Score }
+						value={ this.state.team1Score }
+					/>
 					<span className="col-sm-2">{ game.team2 }</span>
 					<input
 						type="number"
 						name="team2Score"
 						className="col-sm-2"
-						valueLink={ this.linkState( 'team2Score' ) } />
+						onChange={ this.setTeam2Score }
+						value={ this.state.team2Score }
+					/>
 					<input type="submit" value="save changes" className={ inputClasses } />
 				</form>
 			</li>

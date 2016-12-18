@@ -1,9 +1,10 @@
-const { Link, History } = ReactRouter;
-
+import React from 'react';
+import { Link, browserHistory } from 'react-router';
 Tab = React.createClass({
-  mixins: [ History ],
   render() {
-    const isActive = this.history.isActive(this.props.to, this.props.query, this.props.onlyActiveOnIndex)
+		const location = browserHistory.getCurrentLocation().pathname;
+		const to = this.props.to;
+    const isActive = !! this.props.onlyActiveOnIndex ? location === to : location.match( to );
     const className = isActive ? 'active' : ''
     return <li className={className}><Link {...this.props}/></li>
   }

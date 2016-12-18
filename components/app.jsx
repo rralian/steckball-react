@@ -1,4 +1,5 @@
-const { Link, IndexLink } = ReactRouter;
+import React from 'react';
+import { Link, IndexLink } from 'react-router';
 
 App = React.createClass({
     mixins: [ReactMeteorData],
@@ -52,7 +53,7 @@ App = React.createClass({
                 { isAdmin && <Tab to="/games">games</Tab> }
                 { isAdmin && <Tab to="/scores">scores</Tab> }
                 { isAdmin && <Tab to="/admin">admin</Tab> }
-								{ currentUser && <Tab to="/2015-16" onlyActiveOnIndex>2015/16</Tab> }
+								{ currentUser && <Tab to="/2015-16">2015/16</Tab> }
             </ul>
         </nav>
         <div className="container">{this.props.children}</div>

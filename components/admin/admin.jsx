@@ -1,3 +1,4 @@
+import React from 'react';
 Admin = React.createClass({
 	getInitialState() {
 		return this.props;

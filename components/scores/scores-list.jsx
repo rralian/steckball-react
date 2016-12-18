@@ -1,3 +1,4 @@
+import React from 'react';
 ScoresList = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData() {
@@ -13,8 +14,7 @@ ScoresList = React.createClass({
     },
 
     render() {
-    	const games = this.data.games;
-        const superbowl = this.data.superbowl;
+    	const { games, superbowl } = this.data;
 
         return (
           <div className="scores-list">

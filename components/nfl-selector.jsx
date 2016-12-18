@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 const nflTeams = [
 "Arizona Cardinals",
 "Atlanta Falcons",

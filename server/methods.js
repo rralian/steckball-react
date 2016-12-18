@@ -12,6 +12,7 @@ Meteor.methods( {
 	// games
 	addGame( game ) {
 		if ( ! checkAdmin() ) return;
+		console.log('getting here');
 		Games2016.insert( game );
 	},
 	updateGame( game ) {

@@ -1,12 +1,13 @@
+import React from 'react';
+import { browserHistory } from 'react-router';
 PickForm = React.createClass({
-	mixins: [ReactMeteorData,React.addons.LinkedStateMixin],
+	mixins: [ReactMeteorData],
 	getMeteorData() {
         return {
             userId: Meteor.userId(),
         };
     },
 	contextTypes: {
-		history: React.PropTypes.object,
 		gameMode: React.PropTypes.string,
 		isAdmin: React.PropTypes.bool,
 	},
@@ -58,7 +59,7 @@ PickForm = React.createClass({
 		return true;
 	},
 	savePick( event ) {
-		const { history } = this.context;
+
 		event.preventDefault();
 		if ( ! this.isFormValid() ) return;
 		const { games, pick } = this.props;
@@ -70,13 +71,21 @@ PickForm = React.createClass({
 		}
 		const saveMethod = ( newPick._id ) ? 'updatePick' : 'addPick';
 		Meteor.call( saveMethod, newPick );
-		history.pushState( null, '/picks' );
+		browserHistory.push( '/picks' );
 	},
 	selectSuperbowlWinner( event ) {
 		event.preventDefault();
 		const winner = event.target.value;
 		if ( ! winner ) return;
 		this.setState( { superbowlWinner: winner } );
+	},
+	setPickOwner( e ) {
+		const pickOwner = e.target.value;
+		this.setState( { 'pick-owner': pickOwner } );
+	},
+	setMargin( gameKey, e ) {
+		const margin = e.target.value;
+		this.setState( { [`${gameKey}-margin`]: margin } );
 	},
 	render() {
 		const { games, pick } = this.props;
@@ -95,9 +104,10 @@ PickForm = React.createClass({
 							className="pick-form__owner-input"
 							ref="pick-owner"
 							type="text"
-							valueLink={ this.linkState( 'pick-owner' ) }
+							onChange={ this.setPickOwner }
 							placeholder="Pick Owner"
 							disabled={ ! canEdit }
+							value={ this.state[ 'pick-owner' ] }
 						/>
 					</fieldset>
 					<fieldset className="pick-form__fieldset">
@@ -135,7 +145,8 @@ PickForm = React.createClass({
 								type="number"
 								ref={ `${gameKey}-margin` }
 								placeholder="by how many points"
-								valueLink={ this.linkState( `${gameKey}-margin` ) }
+								onChange={ this.setMargin.bind( this, gameKey ) }
+								value={ this.state[`${gameKey}-margin`] }
 								disabled={ ! canEdit }
 							/>
 						</div>

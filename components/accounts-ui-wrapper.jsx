@@ -1,3 +1,5 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 AccountsUIWrapper = React.createClass({
   componentDidMount() {
     // Use Meteor Blaze to render login buttons

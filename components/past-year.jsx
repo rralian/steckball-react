@@ -1,4 +1,5 @@
-const { Link } = ReactRouter;
+import React from 'react';
+import { Link } from 'react-router';
 PastYear = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData() {

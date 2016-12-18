@@ -1,14 +1,15 @@
+import React from 'react';
 GamesList = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData() {
-	return {
-		games: Games2016.find().fetch(),
-        editingGame: Session.get( 'editingGame' ),
-	};
+		return {
+			games: Games2016.find().fetch(),
+			editingGame: Session.get( 'editingGame' ),
+		};
   },
 
   render() {
-	const games = this.data.games;
+	const { games } = this.data;
 
     return (
       <div className="games-list">

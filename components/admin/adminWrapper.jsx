@@ -1,3 +1,4 @@
+import React from 'react';
 AdminWrapper = React.createClass({
     mixins: [ReactMeteorData],
     getMeteorData() {

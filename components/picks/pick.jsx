@@ -1,9 +1,9 @@
+import React from 'react';
 Pick = React.createClass({
-	mixins: [ReactMeteorData, React.addons.LinkedStateMixin],
+	mixins: [ReactMeteorData],
 	getMeteorData() {
-		const games = Games2016.find().fetch();
 		return {
-			games: games,
+			games: Games2016.find().fetch(),
 			pick: Picks2016.findOne({_id: this.props.params.pickId})
 		};
   },
@@ -18,7 +18,7 @@ Pick = React.createClass({
 		if ( gameMode === 'playing' && ! isAdmin ) {
 			title = 'View Pick';
 		}
-		if ( ! games.length ) return;
+		if ( ! games.length ) return null;
 		return (
 			<div className="pick">
 				<h1>{ title }</h1>

@@ -1,15 +1,19 @@
-const {
+import {
   Router,
   Route,
   IndexRoute,
-} = ReactRouter;
+	browserHistory,
+} from 'react-router';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-const history = ReactRouter.history.useQueries(ReactRouter.history.createHistory)()
-
+Meteor.subscribe('adminSettings');
 Meteor.subscribe('games');
 Meteor.subscribe('picks');
-Meteor.subscribe('adminSettings');
 Meteor.subscribe('superbowl');
+Meteor.subscribe('games2016');
+Meteor.subscribe('picks2016');
+Meteor.subscribe('superbowl2016');
 
 const checkAdmin = function( nextState, replaceState ) {
     if ( ! Roles.userIsInRole( Meteor.userId(), ['admin'] ) ) {
@@ -24,7 +28,7 @@ const checkLoggedIn = function( nextState, replaceState ) {
 
 Meteor.startup(function () {
   ReactDOM.render((
-	  <Router history={ history }>
+	  <Router history={ browserHistory }>
 		  <Route name="root" component={App} path="/">
 			<IndexRoute component={Home} />
       <Route name="picks" path="picks" onEnter={ checkLoggedIn }>
